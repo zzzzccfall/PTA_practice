@@ -1,0 +1,57 @@
+#include<stdio.h>
+
+int a[100000];
+int MaxSub(int a[], int begin, int end);
+int max3(int a, int b, int c) 
+{
+	if (a>b&&a>c)
+		return a;
+	if (b>a&&b>c)
+		return b;
+	if (c>a&&c>b)
+		return c;
+}
+
+
+int main()
+{
+	int k,i;
+	scanf("%d",&k);
+	for (i=0;i<k;i++)
+	{
+		scanf("%d",&a[i]);
+	}
+	printf("%d",MaxSub(a,0,k-1));
+}
+
+
+int MaxSub(int a[], int begin, int end)
+{
+	int mid = (begin+end)/2;
+	int leftsum = 0,rightsum = 0,midsum = 0, sum = 0;
+	int i;
+	if (begin==end)
+	{
+		return a[begin];
+	}
+	else
+	{
+		// midsum
+		for (i=mid;i>=begin;i--)
+		{
+			sum += a[i];
+			if (sum>midsum) midsum = sum;
+		}
+		for (i=mid+1; i<=end; i++)
+		{
+			sum += a[i];
+			if (sum>midsum) midsum = sum;
+		}
+		
+		//leftsum
+		leftsum = MaxSub(a, begin, mid);
+		//rightsum
+		rightsum = MaxSub(a, mid+1, end);
+	}
+	return (max3(leftsum, rightsum, midsum));
+} 
